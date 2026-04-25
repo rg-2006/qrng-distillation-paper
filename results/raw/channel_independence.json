@@ -1,0 +1,51 @@
+{
+  "benchmark": "channel_independence",
+  "gpu": "b'NVIDIA H100 PCIe'",
+  "pairs": [
+    {
+      "pearson_correlation": -0.00213335981077698,
+      "pearson_p_value": 0.131423759239089,
+      "equality_count": 1909,
+      "equality_ratio": 0.003818,
+      "expected_equality": 0.00390625,
+      "hamming_distance_bits": 2001337,
+      "hamming_ratio": 0.50033425,
+      "chi2_statistic": 242.07853653695648,
+      "chi2_p_value": 0.20701666499916024,
+      "mutual_information_bits": 0.029078483032266664,
+      "n_bytes_compared": 500000,
+      "customer_a": "customer_alpha",
+      "customer_b": "customer_beta"
+    },
+    {
+      "pearson_correlation": -0.00023395150936004195,
+      "pearson_p_value": 0.868606890249671,
+      "equality_count": 2022,
+      "equality_ratio": 0.004044,
+      "expected_equality": 0.00390625,
+      "hamming_distance_bits": 1998742,
+      "hamming_ratio": 0.4996855,
+      "chi2_statistic": 249.26016603858199,
+      "chi2_p_value": 0.12795767596002935,
+      "mutual_information_bits": 0.030821506987202534,
+      "n_bytes_compared": 500000,
+      "customer_a": "customer_alpha",
+      "customer_b": "customer_gamma"
+    },
+    {
+      "pearson_correlation": 0.0012396970569182278,
+      "pearson_p_value": 0.38070592738731096,
+      "equality_count": 2023,
+      "equality_ratio": 0.004046,
+      "expected_equality": 0.00390625,
+      "hamming_distance_bits": 1998593,
+      "hamming_ratio": 0.49964825,
+      "chi2_statistic": 258.4961867772768,
+      "chi2_p_value": 0.062036468590143036,
+      "mutual_information_bits": 0.029781486864684834,
+      "n_bytes_compared": 500000,
+      "customer_a": "customer_beta",
+      "customer_b": "customer_gamma"
+    }
+  ]
+}

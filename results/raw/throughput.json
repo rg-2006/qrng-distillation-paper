@@ -1,0 +1,56 @@
+{
+  "benchmark": "throughput",
+  "gpu": "b'NVIDIA H100 PCIe'",
+  "results": [
+    {
+      "n_input_bits": 8192,
+      "m_output_bits": 6144,
+      "input_kb": 1.0,
+      "output_kb": 0.75,
+      "iterations": 100,
+      "elapsed_s": 0.022172371000124258,
+      "gbps_output": 0.02771016234558572,
+      "us_per_op": 221.72371000124258
+    },
+    {
+      "n_input_bits": 16384,
+      "m_output_bits": 12288,
+      "input_kb": 2.0,
+      "output_kb": 1.5,
+      "iterations": 100,
+      "elapsed_s": 0.04397860200015202,
+      "gbps_output": 0.027940860875835763,
+      "us_per_op": 439.7860200015202
+    },
+    {
+      "n_input_bits": 32768,
+      "m_output_bits": 24576,
+      "input_kb": 4.0,
+      "output_kb": 3.0,
+      "iterations": 100,
+      "elapsed_s": 0.08762619299977814,
+      "gbps_output": 0.02804640845239302,
+      "us_per_op": 876.2619299977814
+    },
+    {
+      "n_input_bits": 65536,
+      "m_output_bits": 49152,
+      "input_kb": 8.0,
+      "output_kb": 6.0,
+      "iterations": 100,
+      "elapsed_s": 0.33362880899994707,
+      "gbps_output": 0.014732540678166615,
+      "us_per_op": 3336.2880899994707
+    },
+    {
+      "n_input_bits": 131072,
+      "m_output_bits": 98304,
+      "input_kb": 16.0,
+      "output_kb": 12.0,
+      "iterations": 100,
+      "elapsed_s": 1.3136758860000555,
+      "gbps_output": 0.007483124341980641,
+      "us_per_op": 13136.758860000555
+    }
+  ]
+}

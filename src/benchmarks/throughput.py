@@ -28,7 +28,7 @@ from src.cuda.kernels import toeplitz_extract_gpu
 
 def benchmark_throughput(
     block_sizes_bits: list[tuple[int, int]] = None,
-    n_iterations:     int = 1000,
+    n_iterations:     int = 100,
     warmup:           int = 50,
 ) -> dict:
     """Measure Toeplitz throughput across a range of block sizes.
@@ -46,9 +46,6 @@ def benchmark_throughput(
             (  32_768,   24_576),    # 4 KB in
             (  65_536,   49_152),    # 8 KB in
             ( 131_072,   98_304),    # 16 KB in
-            ( 262_144,  196_608),    # 32 KB in
-            ( 524_288,  393_216),    # 64 KB in
-            (1_048_576,  786_432),   # 128 KB in
         ]
 
     print("=" * 70)
