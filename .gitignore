@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Generated proto stubs
+src/proto_generated/*.py
+!src/proto_generated/__init__.py
+
+# Generated benchmark results — keep directory structure but ignore content
+results/raw/*.json
+results/tables/*.md
+results/figures/*.png
+results/figures/*.pdf
+
+# Auto-generated paper summary (regenerated each run)
+paper/results_summary.md
+
+# Server runtime artifacts
+/tmp/qrng_*.pem
+/tmp/qrng_*.bin
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

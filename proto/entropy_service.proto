@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package entropy.v1;
+
+// Entropy delivery service.
+//
+// Two delivery modes are supported:
+//   1. GetEntropy: Tier 1 unary RPC for occasional entropy requests
+//   2. StreamEntropy: Tier 2 server-side streaming for continuous delivery
+//
+// The streaming mode is the architectural innovation: persistent server-push
+// with client-side buffering converts network-RTT-bound entropy access into
+// memory-RTT-bound access (~100-400ns regardless of geography).
+service EntropyService {
+
+  // Tier 1: Request/response — fetch N bytes of certified entropy.
+  // Useful for one-off needs like initial key generation.
+  rpc GetEntropy(EntropyRequest) returns (EntropyResponse);
+
+  // Tier 2: Server-side streaming — server pushes EntropyBlock messages
+  // continuously to the client. The client maintains a local buffer and
+  // reads from it at memory speed. This is the key architectural pattern.
+  rpc StreamEntropy(StreamRequest) returns (stream EntropyBlock);
+
+  // Health monitoring — get current health state of the entropy source.
+  rpc GetHealthStatus(HealthRequest) returns (HealthResponse);
+
+  // Real-time health stream for customer dashboards.
+  rpc StreamHealth(HealthRequest) returns (stream HealthMetrics);
+}
+
+// =====================================================================
+// Tier 1 — Unary request/response
+// =====================================================================
+
+message EntropyRequest {
+  uint32 bytes_requested = 1;        // Number of bytes (max 1 MB per call)
+  string api_key         = 2;        // Authentication
+  string format          = 3;        // "raw" | "hex" | "base64"
+}
+
+message EntropyResponse {
+  bytes  entropy           = 1;      // The certified random bytes
+  uint64 block_sequence    = 2;      // Monotonic sequence number
+  double h_min             = 3;      // Min-entropy of source block
+  double rct_pass_rate     = 4;      // Rolling RCT pass rate (0–1)
+  double apt_pass_rate     = 5;      // Rolling APT pass rate (0–1)
+  string certification     = 6;      // e.g. "NIST-SP-800-90B-PENDING"
+  int64  timestamp_ns      = 7;      // Nanosecond Unix timestamp
+  bytes  block_signature   = 8;      // HSM signature over health metrics
+}
+
+// =====================================================================
+// Tier 2 — Server-side streaming with local buffering
+// =====================================================================
+
+message StreamRequest {
+  string customer_id   = 1;          // Identifies per-customer Toeplitz seed
+  uint32 target_mbps   = 2;          // Requested throughput in Mbps
+  string auth_token    = 3;          // mTLS + bearer token
+  uint32 block_size    = 4;          // Bytes per block (default 4096)
+}
+
+message EntropyBlock {
+  bytes  entropy           = 1;      // Entropy payload for this block
+  uint64 block_sequence    = 2;      // Sequence number (monotonic per stream)
+  double h_min             = 3;      // Per-block min-entropy
+  bool   rct_passed        = 4;      // RCT health test result
+  bool   apt_passed        = 5;      // APT health test result
+  int64  timestamp_ns      = 6;      // Generation timestamp
+  bytes  attestation       = 7;      // HSM-signed attestation
+  string toeplitz_seed_id  = 8;      // Identifies seed used (for audit)
+}
+
+// =====================================================================
+// Health monitoring
+// =====================================================================
+
+message HealthRequest {
+  string customer_id = 1;
+}
+
+message HealthResponse {
+  double current_h_min       = 1;    // Current measured H_min
+  double rolling_h_min_mean  = 2;    // Rolling mean over last 1000 blocks
+  double rolling_h_min_std   = 3;    // Rolling std deviation
+  double rct_pass_rate       = 4;
+  double apt_pass_rate       = 5;
+  uint64 blocks_delivered    = 6;    // Total blocks delivered
+  uint64 blocks_rejected     = 7;    // Total blocks rejected by health tests
+  double pool_depth_gbits    = 8;    // Current pool depth in Gbits
+  string source_status       = 9;    // "NOMINAL" | "DEGRADED" | "FAILED"
+  int64  uptime_seconds      = 10;   // Server uptime
+}
+
+message HealthMetrics {
+  double h_min          = 1;
+  bool   rct_passed     = 2;
+  bool   apt_passed     = 3;
+  int64  timestamp_ns   = 4;
+  double pool_depth_gbits = 5;
+}
