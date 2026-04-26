@@ -86,53 +86,16 @@ class EntropySimulator:
     # ------------------------------------------------------------------
 
     def _generate_modeled_laser(self, n_bytes: int) -> bytes:
-        """Models DFB laser phase noise observed via balanced homodyne.
+        """Biased byte stream simulating non-ideal entropy source.
         
-        The model:
-          - Underlying signal is Gaussian white noise (vacuum fluctuations)
-          - Plus low-amplitude correlated component (laser RIN residual)
-          - Plus deliberate small bias to make H_min realistic (0.85 default)
-          - Quantized to 8-bit ADC samples; LSB extracted as entropy
-        
-        This produces output with H_min close to target_h_min, allowing the
-        paper to demonstrate that Toeplitz extraction concentrates entropy
-        from a non-ideal source to near-perfect uniformity.
+        Produces biased bytes where (1 - target_h_min) fraction are forced
+        to zero, giving a measurable H_min reduction that Toeplitz extraction
+        then amplifies back toward uniformity.
         """
-        n_samples = n_bytes * 8     # 8 ADC samples per output byte (LSB pack)
-
-        # Gaussian noise (the quantum component)
-        gaussian = self._rng.standard_normal(n_samples)
-
-        # Low-amplitude correlated component (classical residual)
-        # Models imperfect common-mode rejection of the homodyne detector
-        correlated = self._rng.standard_normal(n_samples) * 0.15
-        correlated = np.convolve(
-            correlated, np.array([0.5, 0.3, 0.2]), mode='same'
-        )
-
-        # Small bias proportional to (1 - target_h_min)
-        bias = (1.0 - self.config.target_h_min) * 0.5
-        signal = gaussian + correlated + bias
-
-        # Quantize to 8 bits (simulates ADC)
-        signal_normalized = (signal - signal.min()) / (signal.max() - signal.min() + 1e-9)
-        samples_8bit = (signal_normalized * 255).astype(np.uint8)
-
-        # Extract LSB and pack into bytes
-        lsbs = (samples_8bit & 1).astype(np.uint8)
-        packed = np.packbits(lsbs)[:n_bytes]
-
-        # Pad if needed
-        if len(packed) < n_bytes:
-            extra = self._generate_high_quality(n_bytes - len(packed))
-            packed = np.concatenate([packed, np.frombuffer(extra, dtype=np.uint8)])
-
-        return bytes(packed)
-
-    # ------------------------------------------------------------------
-    # Mode 3: failure injection
-    # ------------------------------------------------------------------
-
+        arr = self._rng.integers(0, 256, size=n_bytes, dtype=np.uint8)
+        bias_mask = self._rng.random(n_bytes) < (1.0 - self.config.target_h_min)
+        arr[bias_mask] = 0
+        return bytes(arr)
     def _generate_with_failure(self, n_bytes: int) -> bytes:
         """Generate data with injected failure for health test validation."""
         fmode = self.config.failure_mode

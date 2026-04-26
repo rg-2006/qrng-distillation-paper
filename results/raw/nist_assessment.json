@@ -1,18 +1,18 @@
 {
   "benchmark": "nist_assessment",
-  "gpu": "b'NVIDIA H100 PCIe'",
+  "gpu": "b'NVIDIA H100 80GB HBM3'",
   "tool_used": "builtin_mcv",
   "results": [
     {
       "scenario": "high_quality",
       "raw_assessment": {
         "tool": "builtin_mcv",
-        "h_min": 7.93863023315836,
+        "h_min": 7.939692470320759,
         "note": "Most-common-value estimator from NIST SP 800-90B \u00a76.3.1"
       },
       "extracted_assessment": {
         "tool": "builtin_mcv",
-        "h_min": 7.934970186685085,
+        "h_min": 7.934499256359086,
         "note": "Most-common-value estimator from NIST SP 800-90B \u00a76.3.1"
       },
       "raw_path": "/tmp/raw_hq.bin",
@@ -22,12 +22,12 @@
       "scenario": "modeled_laser",
       "raw_assessment": {
         "tool": "builtin_mcv",
-        "h_min": 7.934036221797808,
+        "h_min": 2.707265359950786,
         "note": "Most-common-value estimator from NIST SP 800-90B \u00a76.3.1"
       },
       "extracted_assessment": {
         "tool": "builtin_mcv",
-        "h_min": 7.940633373705386,
+        "h_min": 7.925580664176867,
         "note": "Most-common-value estimator from NIST SP 800-90B \u00a76.3.1"
       },
       "raw_path": "/tmp/raw_laser.bin",

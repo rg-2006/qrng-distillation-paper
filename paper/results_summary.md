@@ -1,6 +1,6 @@
 # QRNG Distillation Pipeline — Consolidated Results
 
-*Generated: 2026-04-25 19:38 UTC*
+*Generated: 2026-04-26 04:16 UTC*
 
 This document consolidates every benchmark produced by `scripts/run_all_benchmarks.sh` into a single paper-ready summary.
 
@@ -14,7 +14,7 @@ This document consolidates every benchmark produced by `scripts/run_all_benchmar
 - **Median application latency (32-byte read):** 3.58 µs
 - **Maximum inter-channel Pearson correlation:** 0.002133 (target: 0)
 - **Health-test false-positive rate (RCT/APT):** 0.00e+00 / 0.00e+00
-- **H_min amplification (modeled laser):** 7.934 → 7.941 bits/byte
+- **H_min amplification (modeled laser):** 2.707 → 7.926 bits/byte
 
 ---
 
@@ -66,7 +66,7 @@ Comparison with public competitor specifications:
 
 ## 3. Health Test Sensitivity (NIST SP 800-90B)
 
-**GPU:** NVIDIA H100 PCIe
+**GPU:** NVIDIA H100 80GB HBM3
 
 Detection latency for each injected failure mode (across multiple trials):
 
@@ -74,8 +74,8 @@ Detection latency for each injected failure mode (across multiple trials):
 |---|---:|---:|---:|
 | stuck_at | 100% | 1.0 | 4.0 KB |
 | biased | 100% | 1.0 | 4.0 KB |
-| periodic | 0% | — | — |
-| gradual | 0% | — | — |
+| periodic | 100% | 1.0 | 4.0 KB |
+| gradual | 100% | 21.2 | 84.7 KB |
 | intermittent | 0% | — | — |
 
 False positive rate over healthy input:
@@ -116,15 +116,15 @@ Buffer behavior across drain rates from light to over-saturation:
 
 ## 6. NIST SP 800-90B Output Assessment
 
-**GPU:** NVIDIA H100 PCIe
+**GPU:** NVIDIA H100 80GB HBM3
 **Tool:** builtin_mcv
 
 Min-entropy of pipeline output, before and after Toeplitz extraction:
 
 | Scenario | Raw H_min | Extracted H_min |
 |---|---:|---:|
-| high_quality | 7.9386 | 7.9350 |
-| modeled_laser | 7.9340 | 7.9406 |
+| high_quality | 7.9397 | 7.9345 |
+| modeled_laser | 2.7073 | 7.9256 |
 
 Toeplitz extraction concentrates entropy: even a deliberately biased source with H_min ≈ 0.85 bits/byte yields output near the maximum 8 bits/byte. This is the standard randomness-extractor guarantee, demonstrated end-to-end on real GPU hardware.
 

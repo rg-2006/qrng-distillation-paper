@@ -1,6 +1,6 @@
 # Health Test Sensitivity
 
-**GPU:** b'NVIDIA H100 PCIe'
+**GPU:** b'NVIDIA H100 80GB HBM3'
 
 ## Detection Latency by Failure Mode
 
@@ -8,8 +8,8 @@
 |---|---:|---:|---:|---|
 | stuck_at | 100.0% | 1.0 | 4.0 KB | BOTH |
 | biased | 100.0% | 1.0 | 4.0 KB | BOTH |
-| periodic | 0.0% | — | — | NONE |
-| gradual | 0.0% | — | — | NONE |
+| periodic | 100.0% | 1.0 | 4.0 KB | APT |
+| gradual | 100.0% | 21.2 | 84.7 KB | APT |
 | intermittent | 0.0% | — | — | NONE |
 
 ## False Positive Rate (healthy input)

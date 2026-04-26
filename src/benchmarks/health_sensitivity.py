@@ -25,7 +25,7 @@ from src.simulation.entropy_sim import (
 from src.server.distillation import calculate_rct_cutoff, calculate_apt_cutoff
 
 
-def health_check_block(block: bytes, h_min_assumed: float = 0.85) -> dict:
+def health_check_block(block: bytes, h_min_assumed: float = 4.0) -> dict:
     """Run RCT and APT on a block, return results dict."""
     samples_gpu = cp.asarray(np.frombuffer(block, dtype=np.uint8))
     rct_cutoff = calculate_rct_cutoff(h_min_assumed)
