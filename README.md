@@ -19,23 +19,18 @@ A GPU-accelerated certified entropy distillation and gRPC streaming delivery sys
 - Minimum 24 GB GPU memory recommended (the H100 SXM's 80 GB gives headroom)
 - Ubuntu 22.04 LTS
 
-> The pipeline runs on much less than an H100. For development you can use any
-> RTX 30/40-series card or rent a cheaper cloud GPU (A100, A10, L4) — only the
-> headline benchmark numbers will differ.
+
 
 ## Implementation Notes
 
-- **CUDA kernels are inline** via CuPy `RawKernel`, so there is no separate
-  CUDA build step. This is intentional — it keeps deployment to a single
+- **CUDA kernels are inline** via CuPy `RawKernel`. This is intentional as it keeps deployment to a single
   `pip install -r requirements.txt`.
 - **Persistent kernel pattern** is implemented at the Python orchestration
   layer (a continuously running thread that launches kernels on a dedicated
-  CUDA stream), not as a literal kernel that never returns. This avoids
+  CUDA stream). This avoids many
   grid-sizing problems while preserving the semantic the paper claims.
-- **gRPC streaming** uses Python's standard `grpcio`. For the buffer-latency
-  benchmark we measure the local-buffer read path directly to isolate it from
-  network jitter — this is what the paper's latency claim is actually about.
-
+- **gRPC streaming** uses Python's standard `grpcio`
+  
 ## Quick Start (Lambda Labs)
 
 ```bash
@@ -138,4 +133,4 @@ If you use this code in your research:
 
 ## License
 
-[Your choice — recommend Apache 2.0 for academic publication]
+[Apache 2.0]
