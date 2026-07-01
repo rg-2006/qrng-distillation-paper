@@ -1,6 +1,5 @@
 #!/bin/bash
-# Generate gRPC Python stubs from proto file
-# Run this once after cloning, or whenever you modify the .proto file.
+#proto file dev
 
 set -e
 
@@ -23,4 +22,4 @@ sed -i 's/^import entropy_service_pb2/from src.proto_generated import entropy_se
 sed -i '' 's/^import entropy_service_pb2/from src.proto_generated import entropy_service_pb2/' \
     src/proto_generated/entropy_service_pb2_grpc.py 2>/dev/null || true
 
-echo "✅ gRPC stubs generated in src/proto_generated/"
+echo "all gucci gRPC stubs generated in src/proto_generated/"
