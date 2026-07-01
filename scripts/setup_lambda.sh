@@ -8,7 +8,7 @@
 # Python deps, builds stubs stubs, and clones+builds the NIST 
 # assessment tool.
 #
-# Usage:
+# Usage: 
 #   bash scripts/setup_lambda.sh
 #
 # After this completes, run benchmarks with:
