@@ -1,14 +1,10 @@
-# QRNG Distillation Pipeline — Consolidated Results
+# QRNG Distillation Pipeline — Consolidated Results (Informal, probably poorly formatted) and will contain some satirical and stupid comments since I am tired)
 
-*Generated: 2026-04-26 04:16 UTC*
 
-This document consolidates every benchmark produced by `scripts/run_all_benchmarks.sh` into a single paper-ready summary.
 
 ---
 
-## Headline Numbers
-
-> The five numbers most likely to appear in the paper's abstract:
+## Headline Numbers 
 
 - **Peak Toeplitz throughput:** 0.03 Gbps
 - **Median application latency (32-byte read):** 3.58 µs
@@ -32,15 +28,13 @@ Sustained Toeplitz extraction throughput across input block sizes:
 | 8.0 KB | 6.0 KB | 3336.29 µs | 0.015 Gbps |
 | 16.0 KB | 12.0 KB | 13136.76 µs | 0.007 Gbps |
 
-**Peak measured throughput: 0.028 Gbps**
-
-> Reference: ID Quantique's flagship commercial QRNG card produces 4 Gbps. Qrypt's API does not publish a sustained-rate specification.
+**Peak measured throughput: 0.028 Gbps** (I know, I know, I can explain this not a biggy)
 
 ## 2. Application-Level Latency
 
 **GPU:** NVIDIA H100 PCIe
 
-Latency of `get_entropy()` reads from the local buffer (simulating gRPC streaming → buffer → application path):
+Latency of `get_entropy()` reads from the local buffer (simulating gRPC streaming to buffer to application path):
 
 | Request Size | Median | P99 | P99.9 |
 |---:|---:|---:|---:|
@@ -52,16 +46,16 @@ Latency of `get_entropy()` reads from the local buffer (simulating gRPC streamin
 | 1024 B | 3.720 µs | 5.959 µs | 14.430 µs |
 | 4096 B | 3.963 µs | 9.579 µs | 16.943 µs |
 
-**Median latency for typical 32-byte session-key read: 3.578 µs**
+**Med. latency for typical 32-byte session-key read: 3.578 µs**
 
-Comparison with public competitor specifications:
+Comparison with the competitor specifications and some estimates:
 
 | System | Latency | Note |
 |---|---:|---|
 | Qrypt REST API (cross-region) | ~50 ms | published cloud RTT |
 | Qrypt REST API (best case)    | ~1 ms  | same-region RTT |
 | ID Quantique PCIe card        | ~15 µs | local PCIe driver call |
-| **This work (gRPC + buffer)** | **~3.58 µs**
+| **This work**                 | **~3.58 µs**
 
 
 ## 3. Health Test Sensitivity (NIST SP 800-90B)
@@ -96,13 +90,13 @@ Statistical tests on pairs of customer streams that share the same source pool b
 | customer_alpha ↔ customer_gamma | -0.000234 | 0.499686 | 0.1280 | 0.030822 |
 | customer_beta ↔ customer_gamma | +0.001240 | 0.499648 | 0.0620 | 0.029781 |
 
-**Interpretation:** Correlations ≈ 0, Hamming ratios ≈ 0.5, χ² p-values fail to reject the independence hypothesis, and mutual information estimates are negligible — together providing empirical evidence of cryptographic isolation between concurrent customer channels.
+**Relevence to non-tech reader:** Correlations ≈ 0, Hamming ratios ≈ 0.5, χ² p-values fail to reject the independence hypothesis, and mutual information estimates are negligible, together providing empirical evidence of cryptographic isolation between concurrent customer channels (shoutout Brien McMahon High School AP Stat w/ Laura Quagliata).
 
 ## 5. Buffer Dynamics
 
 **GPU:** NVIDIA H100 PCIe
 
-Buffer behavior across drain rates from light to over-saturation:
+Buffer behav. across drain rates from light to over sat.:
 
 | Scenario | Refill | Drain | Successful | Mean Latency | Min Depth |
 |---|---:|---:|---:|---:|---:|
@@ -112,7 +106,6 @@ Buffer behavior across drain rates from light to over-saturation:
 | Near-saturation: 900 Mbps drain | 1.0 Gbps | 900 Mbps | 1,034,077 | 2.36 µs | 0.90 MB |
 | Over-saturation: 1.5 Gbps drain (buffer dries) | 1.0 Gbps | 1500 Mbps | 1,250,906 | 1.95 µs | 0.60 MB |
 
-**Key observation:** As long as refill rate > drain rate, the buffer never empties and application latency stays at memory speed. The over-saturation row shows the failure mode (buffer drains faster than refill) which is what we DO NOT want — and what every competitor's API-based delivery architecture forces on the client at high load.
 
 ## 6. NIST SP 800-90B Output Assessment
 
@@ -126,13 +119,14 @@ Min-entropy of pipeline output, before and after Toeplitz extraction:
 | high_quality | 7.9397 | 7.9345 |
 | modeled_laser | 2.7073 | 7.9256 |
 
-Toeplitz extraction concentrates entropy: even a deliberately biased source with H_min ≈ 0.85 bits/byte yields output near the maximum 8 bits/byte. This is the standard randomness-extractor guarantee, demonstrated end-to-end on real GPU hardware.
+Amped to a little under 8 bits/byte, demonstrated end-to-end on real GPU hardware (via lambda labs tho cause I'm broke).
 
 ---
 
 ## Reproduction
 
-All numbers in this document are reproduced from JSON files in `results/raw/`. To regenerate from scratch on a fresh Lambda Labs H100 SXM instance:
+To regenerate from scratch on a fresh Lambda Labs H100 SXM instance:
+Copy and paste that jawnt and read em and weep.
 
 ```bash
 git clone <repo>
