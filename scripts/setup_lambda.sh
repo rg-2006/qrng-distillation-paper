@@ -3,9 +3,9 @@
 # Lambda Labs droplet setup script
 # ================================
 #
-# Run this once on a fresh gpu_1x_h100_sxm5 (or similar) instance.
-# It installs all system dependencies, creates a Python venv, installs
-# Python deps, builds gRPC stubs, and clones+builds the NIST entropy
+# Run this once on a gpu_1x_h100_sxm5 (or something similar
+# Pretty much installs some dependencies, creates a Python venv, installs
+# Python deps, builds stubs stubs, and clones+builds the NIST 
 # assessment tool.
 #
 # Usage:
