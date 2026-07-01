@@ -1,4 +1,4 @@
-# QRNG Distillation Pipeline — Paper Implementation
+# QRNG Distillation Pipeline (the) Paper Implementation
 
 A GPU-accelerated certified entropy distillation and gRPC streaming delivery system, designed to produce reproducible benchmark results for academic publication.
 
@@ -120,7 +120,7 @@ bash scripts/setup_cloudflare.sh
 
 ## Citation
 
-If you use this code in your research:
+If you use this code in your research (give a shout plz and thanks):
 
 ```bibtex
 @misc{qrng_distillation_2026,
