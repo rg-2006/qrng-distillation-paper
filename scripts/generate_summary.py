@@ -2,10 +2,9 @@
 Generate a consolidated paper-ready results summary from all benchmark JSON.
 
 Reads every results/raw/*.json file produced by the benchmark suite and
-emits paper/results_summary.md — a single document containing all the
-numbers, tables, and references needed to write the paper.
+emits paper/results_summary.md (doc containing nums, tables, refs)
 
-Run automatically by scripts/run_all_benchmarks.sh, or manually:
+To run:
     python -m scripts.generate_summary
 """
 
@@ -92,7 +91,7 @@ def build_latency_section(data: dict | None) -> list[str]:
     out.append(f"**GPU:** {gpu_label(data)}")
     out.append("")
     out.append("Latency of `get_entropy()` reads from the local buffer "
-               "(simulating gRPC streaming → buffer → application path):")
+               "(simulating gRPC streaming to buffer to application path):")
     out.append("")
     out.append("| Request Size | Median | P99 | P99.9 |")
     out.append("|---:|---:|---:|---:|")
@@ -106,10 +105,10 @@ def build_latency_section(data: dict | None) -> list[str]:
             median_for_paper = r['median_us']
     out.append("")
     if median_for_paper is not None:
-        out.append(f"**Median latency for typical 32-byte session-key read: "
+        out.append(f"**Med. latency for typical 32-byte session-key read: "
                    f"{median_for_paper:.3f} µs**")
         out.append("")
-    out.append("Comparison with public competitor specifications:")
+    out.append("Comparison with competitor specifications:")
     out.append("")
     out.append("| System | Latency | Note |")
     out.append("|---|---:|---|")
