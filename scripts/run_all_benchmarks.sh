@@ -3,12 +3,12 @@
 # Run all benchmarks and generate paper-ready results.
 # ====================================================
 #
-# Each benchmark writes:
-#   results/raw/<name>.json       — machine-readable output
-#   results/tables/<name>.md      — Markdown table for paper
-#   results/figures/<name>.png    — figure(s) for paper
+# Each benchmark is gonna write:
+#   results/raw/<name>.json       
+#   results/tables/<name>.md      —table for paper
+#   results/figures/<name>.png    — figs for paper
 #
-# At the end, paper/results_summary.md is generated from the JSON.
+# The paper/results_summary.md is generated from the JSON.
 #
 # Usage:
 #   source venv/bin/activate
