@@ -5,7 +5,7 @@ __pycache__/
 .Python
 *.egg-info/
 
-# Virtual environments
+# Virtual envrionments
 venv/
 env/
 .venv/
@@ -14,16 +14,16 @@ env/
 src/proto_generated/*.py
 !src/proto_generated/__init__.py
 
-# Generated benchmark results — keep directory structure but ignore content
+# Generated benchmark results 
 results/raw/*.json
 results/tables/*.md
 results/figures/*.png
 results/figures/*.pdf
 
-# Auto-generated paper summary (regenerated each run)
+# Auto-generated summary
 paper/results_summary.md
 
-# Server runtime artifacts
+# Server arts
 /tmp/qrng_*.pem
 /tmp/qrng_*.bin
 
